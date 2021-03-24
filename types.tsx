@@ -1,6 +1,7 @@
 export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
+  NewTweet: undefined;
 };
 
 // Navigation Types
@@ -26,6 +27,10 @@ export type NotificationsParamList = {
 
 export type MessagesParamList = {
   MessagesScreen: undefined;
+};
+
+export type NewTweetParamList = {
+  NewTweetScreen: undefined;
 };
 
 // Tweet Types
