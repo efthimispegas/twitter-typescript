@@ -1,9 +1,10 @@
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { ColorSchemeName, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
 
-import NotFoundScreen from '../screens/NotFoundScreen';
+import NewTweetScreen from '../screens/newTweetScreen';
+import NotFoundScreen from '../screens/notFoundScreen';
 import { RootStackParamList } from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -26,9 +27,22 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+    <Stack.Navigator screenOptions={{ headerShown: false, /* gestureEnabled: false */ }}>
+      <Stack.Screen
+        name="Root"
+        // component={NewTweetScreen}
+        component={BottomTabNavigator}
+      />
+      <Stack.Screen
+        name="NewTweet"
+        component={NewTweetScreen}
+        options={{ gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{ title: 'Oops!' }}
+      />
     </Stack.Navigator>
   );
 }

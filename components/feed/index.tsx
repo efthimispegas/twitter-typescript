@@ -3,15 +3,13 @@ import { FlatList } from 'react-native';
 import { TweetType } from '../../types';
 import Tweet from '../../components/tweet';
 
-import tweets from '../../data/tweets';
-
 export type FeedProps = {
   // Required props
-  tweet: TweetType,
+  tweets: Array<TweetType>,
   // Optional props
 };
 
-const Feed = () => {
+const Feed = ({ tweets }: FeedProps) => {
   return (
     <FlatList
       data={tweets}

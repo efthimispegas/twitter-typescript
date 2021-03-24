@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: 10,
     paddingLeft: 10,
-  }
+  },
 });
 
 export default styles;

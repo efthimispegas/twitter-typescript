@@ -19,5 +19,10 @@ export default {
   grey: {
     text: '#ffffff',
     tint: '#898989'
+  },
+  CTA: {
+    background: '#1da1f2',
+    icon: '#ffffff',
+    text: '#ffffff',
   }
 };
