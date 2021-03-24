@@ -5,6 +5,9 @@ const styles = StyleSheet.create({
   tweetContainer: {
     flex: 1,
     flexDirection: 'column',
+    paddingVertical: 5,
+    borderBottomWidth: 0.2,
+    borderColor: Colors.grey.tint,
   },
   tweetTopContainer: {
     flexDirection: 'row',
@@ -16,9 +19,7 @@ const styles = StyleSheet.create({
   tweetBottomContainer: {
     flexDirection: 'row',
     marginHorizontal: 10,
-    paddingLeft: 40,
-    borderBottomWidth: 0.2,
-    borderColor: Colors.grey.tint,
+    paddingLeft: 10,
   }
 });
 
