@@ -5,10 +5,10 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import HomeScreen from '../screens/HomeScreen';
-import SearchScreen from '../screens/SearchScreen';
-import NotificationsScreen from '../screens/NotificationsScreen';
-import MessagesScreen from '../screens/MessagesScreen';
+import HomeScreen from '../screens/homeScreen';
+import SearchScreen from '../screens/searchScreen';
+import NotificationsScreen from '../screens/notificationsScreen';
+import MessagesScreen from '../screens/messageScreen';
 import ProfilePicture from '../components/profilePicture';
 import { BottomTabParamList, HomeParamList, SearchParamList, NotificationsParamList, MessagesParamList } from '../types';
 
