@@ -1,0 +1,28 @@
+{
+  "auth": {
+    "twitter668897af": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
+  "api": {
+    "twitter": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "da2-eqn4sgsln5gihczvciny3pl3qu",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7,
+              "description": "The key for the twitter project"
+            }
+          },
+          "additionalAuthenticationProviders": []
+        }
+      }
+    }
+  }
+}

@@ -3,9 +3,11 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { View } from '../../components/Themed';
 import Header from '../../components/header';
 import React, { useEffect, useState } from 'react';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
 
 import styles from './styles';
 import ProfilePicture from '../../components/profilePicture';
+import { createTweet } from '../../graphql/mutations';
 
 export type NewTweetScreenProps = {
   // Required props
@@ -20,16 +22,39 @@ export default function NewTweetScreen(props: NewTweetScreenProps) {
   const [ imageUrl, setImageUrl ] = useState<string | undefined>('');
 
   useEffect(() => {
-    console.log('===============');
-    console.log('[NewTweetScreen: route',route);
-    console.log('===============');
   }, []);
 
   const onTweetPress = (e: GestureResponderEvent) => {
     e.preventDefault();
-    console.log('===============');
-    console.log('[NewTweetScreen]:', 'New tweet created!');
-    console.log('===============');
+    Alert.alert(
+      'Create new tweet?',
+      'You are about to share a new tweet.\nAre you sure you want to continue?',
+      [
+        { text: 'Continue', style: 'cancel', onPress: () => onPostNewTweet() },
+        { text: 'Cancel', style: 'destructive', onPress: () => console.log('Cancel was pressed.') },
+      ]
+    );
+  };
+
+  const onPostNewTweet = async () => {
+    try {
+      const userInfo = await Auth.currentAuthenticatedUser({ bypassCache: false });
+      if(userInfo) {
+        const newTweet = {
+          content: tweet,
+          image: imageUrl,
+          userID: userInfo.attributes.sub,
+        };
+        await API.graphql(graphqlOperation(createTweet, { input: newTweet }));
+        navigation.goBack();
+        Alert.alert(
+          'New tweet created!'
+        );
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
   };
 
   const onClosePress = (e: GestureResponderEvent) => {
