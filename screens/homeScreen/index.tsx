@@ -19,6 +19,7 @@ export type HomeScreenProps = {
 export default function HomeScreen(props:HomeScreenProps) {
   const navigation = useNavigation();
   const [ tweetsList, setTweetsList ] = useState(tweets);
+  const [ loading, setLoading ] = useState(false);
 
   const onNewTweetPress = (e: any) => {
     e.preventDefault();
@@ -33,12 +34,18 @@ export default function HomeScreen(props:HomeScreenProps) {
   };
 
   useEffect(() => {
+    setLoading(true);
     fetchTweets();
-  }, [fetchTweets]);
+    setLoading(false);
+  }, [fetchTweets, setLoading]);
 
   return (
     <View style={styles.container}>
-      <Feed tweets={tweetsList} />
+      <Feed
+        fetchTweets={fetchTweets}
+        tweets={tweetsList}
+        loading={loading}
+      />
       <NewTweetButton onPress={onNewTweetPress} />
     </View>
   );

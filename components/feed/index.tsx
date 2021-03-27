@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { FlatList } from 'react-native';
 import { TweetType } from '../../types';
 import Tweet from '../../components/tweet';
@@ -6,10 +6,12 @@ import Tweet from '../../components/tweet';
 export type FeedProps = {
   // Required props
   tweets: Array<TweetType>,
+  fetchTweets: () => void,
+  loading: boolean,
   // Optional props
 };
 
-const Feed = ({ tweets }: FeedProps) => {
+const Feed = ({ tweets, fetchTweets, loading }: FeedProps) => {
   return (
     <FlatList
       data={tweets}
@@ -17,6 +19,8 @@ const Feed = ({ tweets }: FeedProps) => {
         <Tweet tweet={item} />
       )}
       keyExtractor={({ id }) => id}
+      refreshing={loading}
+      onRefresh={fetchTweets}
     />
   );
 };
