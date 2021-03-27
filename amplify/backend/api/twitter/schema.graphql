@@ -13,14 +13,27 @@ type Tweet @model @key(name: "byUser", fields: ["userID"]) {
   content: String!
   image: String
   user: User @connection(fields: ["userID"])
-  comments: [Comment] @connection(keyName: "byUser", fields: ["id"])
+  comments: [Comment] @connection(keyName: "byTweet", fields: ["id"])
+  likes: [Like] @connection(keyName: "byTweet", fields: ["id"])
 }
 
-type Comment @model @key(name: "byUser", fields: ["userID", "tweetID"]) {
-  id: ID!
-  userID: ID!
-  tweetID: ID!
-  content: String!
-  tweet: Tweet @connection(fields: ["tweetID"])
-  user: User @connection(fields: ["userID"])
+type Comment @model
+  @key(name: "byUser", fields: ["userID", "tweetID"])
+  @key(name: "byTweet", fields: ["tweetID", "userID"]) {
+    id: ID!
+    userID: ID!
+    tweetID: ID!
+    content: String!
+    tweet: Tweet @connection(fields: ["tweetID"])
+    user: User @connection(fields: ["userID"])
+}
+
+type Like @model
+  @key(name: "byUser", fields: ["userID", "tweetID"])
+  @key(name: "byTweet", fields: ["tweetID", "userID"]) {
+    id: ID!
+    userID: ID!
+    tweetID: ID!
+    user: User @connection(fields: ["userID"])
+    tweet: Tweet @connection(fields: ["tweetID"])
 }

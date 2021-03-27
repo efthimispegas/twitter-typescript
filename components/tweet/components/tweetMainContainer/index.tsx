@@ -4,6 +4,7 @@ import { View, Text } from '../../../Themed';
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 import { TweetType, UserType } from '../../../../types';
+import { trimStr } from '../../../../helpers/trim';
 
 import styles from './styles';
 
@@ -19,13 +20,11 @@ const TweetMainContainer = ({ tweet, user }: TweetMainContainerProps) => (
     <View style={styles.tweetHeaderWrapper}>
       <View style={styles.tweetHeaderContainer}>
         <Text style={styles.tweetNameText}>{user.name}</Text>
-        <Text style={styles.tweetUsernameText}>@{user.username}</Text>
+        <Text style={styles.tweetUsernameText}>
+          @{trimStr(user.username, 10, 9)}
+        </Text>
         <Text style={styles.tweetTimestampText}>
-          {moment(tweet.createdAt).fromNow().length > 10 ? (
-            `${moment(tweet.createdAt).fromNow().substr(0,9)}...`
-          ) : (
-            moment(tweet.createdAt).fromNow()
-          )}
+          {trimStr(moment(tweet.createdAt).fromNow(), 14, 13)}
         </Text>
       </View>
       <View style={styles.tweetIconContainer}>
