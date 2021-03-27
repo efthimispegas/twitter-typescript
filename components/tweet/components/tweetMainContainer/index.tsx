@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image } from 'react-native';
+import { S3Image } from 'aws-amplify-react-native';
 import { View, Text } from '../../../Themed';
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
@@ -34,7 +35,7 @@ const TweetMainContainer = ({ tweet, user }: TweetMainContainerProps) => (
     <View style={styles.tweetContentContainer}>
         <Text style={styles.tweetContentText}>{tweet.content}</Text>
         {!!tweet.image &&
-          <Image source={{ uri: tweet.image }} style={styles.tweetImage} />
+          <S3Image imgKey={tweet.image} style={styles.tweetImage} />
         }
     </View>
   </View>

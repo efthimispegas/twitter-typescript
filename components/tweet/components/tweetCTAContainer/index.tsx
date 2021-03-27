@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { API, graphqlOperation } from 'aws-amplify';
 import { EvilIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
@@ -14,36 +14,30 @@ export type TweetCTAContainerProps = {
   user: UserType,
   tweet: TweetType,
   meta: MetaType,
+  like: Object | null,
+  setLike: Dispatch<SetStateAction<Object | null>>,
   onLike: () => void,
-  onDislike: (tweet: TweetType) => void,
   // Optional props
 };
 
-const TweetCTAContainer = ({ user, tweet, meta, onLike, onDislike }: TweetCTAContainerProps) => {
-  const [ isLiked, setIsLiked ] = useState(false);
+const TweetCTAContainer = ({ user, tweet, meta, like, setLike, onLike }: TweetCTAContainerProps) => {
 
   useEffect(() => {
     if(user && tweet) {
-      searchLikedTweets();
+      isTweetLiked();
     }
-  }, [user, tweet]);
+  }, [tweet, user]);
 
-  const searchLikedTweets = () => {
-    const found = tweet.likes.items.find(item => item.userID === user.id);
+  const isTweetLiked = () => {
+    const found = tweet.likes.items.find(item => {
+      if (item.userID === user.id) {
+        // console.log(`Checking if tweet is liked by user on mount...\n Tweet: ${tweet.id} is liked by user`)
+        return true;
+      }
+    });
     if(found) {
-      setIsLiked(true);
+      setLike(found);
     }
-    return found;
-  };
-
-  const handlePress = () => {
-    const found = searchLikedTweets();
-    if(!isLiked) {
-      onLike();
-    } else {
-      onDislike(found);
-    }
-    setIsLiked(!isLiked);
   };
 
   return (
@@ -59,12 +53,12 @@ const TweetCTAContainer = ({ user, tweet, meta, onLike, onDislike }: TweetCTACon
       <View style={styles.CTAContainer}>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={handlePress}
+          onPress={onLike}
         >
-          {isLiked ? (
-            <Ionicons name='heart' size={22} color={Colors.icon.liked} />
-          ) : (
+          {!like ? (
             <Ionicons name='heart-outline' size={22} color={Colors.icon.disliked} />
+          ) : (
+            <Ionicons name='heart' size={22} color={Colors.icon.liked} />
           )}
         </TouchableOpacity>
         <Text style={styles.CTAText}>{meta.likes}</Text>

@@ -12,20 +12,22 @@ import styles from './styles';
 
 export type TweetProps = {
   // Required props
-  user: UserType | undefined,
+  user: UserType,
   tweet: TweetType,
   // Optional props
 };
 
 const Tweet = ({ user, tweet }: TweetProps) => {
-  const [ numOfLikes, setNumOfLikes ] = useState(tweet.likes.items.length);
+  const [ numOfLikes, setNumOfLikes ] = useState<number>(tweet.likes.items.length);
+  const [ like, setLike ] = useState<Object | null>(null);
 
   useEffect(() => {
     // Set initial state of each tweet
     if (tweet && user) {
+      // Get number of likes and set likes state
       fetchLikes();
     }
-  }, [tweet, user]);
+  }, [tweet, user, tweet.likes.items.length]);
 
   const fetchLikes = async () => {
     try {
@@ -35,27 +37,26 @@ const Tweet = ({ user, tweet }: TweetProps) => {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const onLike = async () => {
     // Create a new like
-    const like = {
+    const newLike = {
       userID: user?.id,
       tweetID: tweet.id,
     };
     try {
-      await API.graphql(graphqlOperation(createLike, { input: like }));
-      setNumOfLikes(numOfLikes+1);
-     } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const onDislike = async (like: Object) => {
-    // Delete found like
-    try {
-      await API.graphql(graphqlOperation(deleteLike, { input: { id: like.id } }));
-      setNumOfLikes(numOfLikes-1);
+      if(!like) {
+        // Like
+        const { data } = await API.graphql(graphqlOperation(createLike, { input: newLike }));
+        setNumOfLikes(numOfLikes+1);
+        setLike(data.createLike);
+      } else {
+        // Dislike
+        await API.graphql(graphqlOperation(deleteLike, { input: { id: like.id } }));
+        setNumOfLikes(numOfLikes-1);
+        setLike(null);
+      }
      } catch (err) {
       console.log(err);
     }
@@ -76,8 +77,9 @@ const Tweet = ({ user, tweet }: TweetProps) => {
             retweets: tweet.numberOfRetweets,
             likes: numOfLikes,
           }}
+          like={like}
           onLike={onLike}
-          onDislike={onDislike}
+          setLike={setLike}
         />
       </View>
     </View>
