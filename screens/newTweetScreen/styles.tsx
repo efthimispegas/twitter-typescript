@@ -4,13 +4,12 @@ import Typography from '../../constants/Typography';
 
 const styles = StyleSheet.create({
   newTweetWrapper: {
-    flex:1,
+    flex: 1,
     backgroundColor: Colors.light.background,
     paddingHorizontal: 15,
     paddingBottom: 10, //might delete later
   },
   newTweetContainer: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-start',
     paddingVertical: 10,
@@ -27,9 +26,27 @@ const styles = StyleSheet.create({
     height: 100,
     maxHeight: 300,
   },
-  imageInputContainer: {
+  uploadImageButton: {
+    backgroundColor: Colors.CTA.background,
     marginVertical: 5,
-    padding: 5,
+    padding: 10,
+    marginTop: 50,
+    borderRadius: 20,
+    alignSelf: 'center',
+  },
+  uploadImageText: {
+    color: Colors.CTA.text,
+    ...Typography.h1,
+  },
+  uploadedImageContainer: {
+    alignItems: 'center',
+    paddingVertical: 10,
+    marginTop: 25,
+  },
+  uploadedImage: {
+    width: 300,
+    height: 300,
+    borderRadius: 20,
   }
 });
 
