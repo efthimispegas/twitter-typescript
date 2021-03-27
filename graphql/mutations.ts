@@ -116,6 +116,16 @@ export const createTweet = /* GraphQL */ `
         }
         nextToken
       }
+      likes {
+        items {
+          id
+          userID
+          tweetID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -149,6 +159,16 @@ export const updateTweet = /* GraphQL */ `
           userID
           tweetID
           content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      likes {
+        items {
+          id
+          userID
+          tweetID
           createdAt
           updatedAt
         }
@@ -192,6 +212,16 @@ export const deleteTweet = /* GraphQL */ `
         }
         nextToken
       }
+      likes {
+        items {
+          id
+          userID
+          tweetID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -222,6 +252,9 @@ export const createComment = /* GraphQL */ `
           updatedAt
         }
         comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
         createdAt
@@ -271,6 +304,9 @@ export const updateComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        likes {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -318,6 +354,9 @@ export const deleteComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        likes {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -328,6 +367,153 @@ export const deleteComment = /* GraphQL */ `
         name
         image
         tweets {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createLike = /* GraphQL */ `
+  mutation CreateLike(
+    $input: CreateLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    createLike(input: $input, condition: $condition) {
+      id
+      userID
+      tweetID
+      user {
+        id
+        username
+        email
+        name
+        image
+        tweets {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tweet {
+        id
+        userID
+        content
+        image
+        user {
+          id
+          username
+          email
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateLike = /* GraphQL */ `
+  mutation UpdateLike(
+    $input: UpdateLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    updateLike(input: $input, condition: $condition) {
+      id
+      userID
+      tweetID
+      user {
+        id
+        username
+        email
+        name
+        image
+        tweets {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tweet {
+        id
+        userID
+        content
+        image
+        user {
+          id
+          username
+          email
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteLike = /* GraphQL */ `
+  mutation DeleteLike(
+    $input: DeleteLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    deleteLike(input: $input, condition: $condition) {
+      id
+      userID
+      tweetID
+      user {
+        id
+        username
+        email
+        name
+        image
+        tweets {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tweet {
+        id
+        userID
+        content
+        image
+        user {
+          id
+          username
+          email
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
         createdAt

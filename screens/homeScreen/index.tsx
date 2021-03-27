@@ -4,10 +4,9 @@ import { useNavigation } from '@react-navigation/native';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import Feed from '../../components/feed';
 import NewTweetButton from '../../components/newTweetButton';
-import { Text, View } from '../../components/Themed';
+import { View } from '../../components/Themed';
 
-import { listTweets } from '../../graphql/queries';
-import tweets from '../../data/tweets';
+import { getUser, listTweets } from '../../graphql/queries';
 
 export type HomeScreenProps = {
   // Required props
@@ -18,26 +17,40 @@ export type HomeScreenProps = {
 
 export default function HomeScreen(props:HomeScreenProps) {
   const navigation = useNavigation();
-  const [ tweetsList, setTweetsList ] = useState(tweets);
+  const [ user, setUser ] = useState();
+  const [ tweetsList, setTweetsList ] = useState([]);
   const [ loading, setLoading ] = useState(false);
 
   const onNewTweetPress = (e: any) => {
     e.preventDefault();
-    navigation.navigate('NewTweet', { user: tweets[0].user });
+    navigation.navigate('NewTweet', { user });
   };
 
   const fetchTweets = async () => {
-    const { data } = await API.graphql(graphqlOperation(listTweets));
+    const { data }:any = await API.graphql(graphqlOperation(listTweets));
     if(data.listTweets.items) {
-      setTweetsList([ ...tweets, ...data.listTweets.items ]);
+      setTweetsList([ ...data.listTweets.items ]);
+    }
+  };
+
+  const fetchUser = async () => {
+    try {
+      const { attributes } = await Auth.currentAuthenticatedUser({ bypassCache: true });
+      const { data } = await API.graphql(graphqlOperation(getUser, { id: attributes.sub }))
+      if(data.getUser) {
+        setUser(data.getUser);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
   useEffect(() => {
     setLoading(true);
+    fetchUser();
     fetchTweets();
     setLoading(false);
-  }, [fetchTweets, setLoading]);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -45,6 +58,7 @@ export default function HomeScreen(props:HomeScreenProps) {
         fetchTweets={fetchTweets}
         tweets={tweetsList}
         loading={loading}
+        user={user}
       />
       <NewTweetButton onPress={onNewTweetPress} />
     </View>

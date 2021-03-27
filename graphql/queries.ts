@@ -79,6 +79,16 @@ export const getTweet = /* GraphQL */ `
         }
         nextToken
       }
+      likes {
+        items {
+          id
+          userID
+          tweetID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -106,6 +116,23 @@ export const listTweets = /* GraphQL */ `
           updatedAt
         }
         comments {
+          items {
+            id
+            userID
+            tweetID
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        likes {
+          items {
+            id
+            userID
+            tweetID
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
@@ -137,6 +164,9 @@ export const getComment = /* GraphQL */ `
           updatedAt
         }
         comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
         createdAt
@@ -184,6 +214,87 @@ export const listComments = /* GraphQL */ `
           username
           email
           name
+          image
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getLike = /* GraphQL */ `
+  query GetLike($id: ID!) {
+    getLike(id: $id) {
+      id
+      userID
+      tweetID
+      user {
+        id
+        username
+        email
+        name
+        image
+        tweets {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tweet {
+        id
+        userID
+        content
+        image
+        user {
+          id
+          username
+          email
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listLikes = /* GraphQL */ `
+  query ListLikes(
+    $filter: ModelLikeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLikes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        tweetID
+        user {
+          id
+          username
+          email
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        tweet {
+          id
+          userID
+          content
           image
           createdAt
           updatedAt

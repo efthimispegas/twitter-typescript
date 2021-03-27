@@ -24,5 +24,9 @@ export default {
     background: '#1da1f2',
     icon: '#ffffff',
     text: '#ffffff',
+  },
+  icon: {
+    liked: '#f3371e',
+    disliked: '#898989'
   }
 };
