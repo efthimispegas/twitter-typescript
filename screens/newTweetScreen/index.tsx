@@ -9,19 +9,16 @@ import styles from './styles';
 import ProfilePicture from '../../components/profilePicture';
 import { createTweet } from '../../graphql/mutations';
 
-export type NewTweetScreenProps = {
-  // Required props
-  // Optional props
-};
-
-export default function NewTweetScreen(props: NewTweetScreenProps) {
+export default function NewTweetScreen() {
   const navigation = useNavigation();
   const route = useRoute();
 
   const [ tweet, setTweet ] = useState<string | undefined>('');
   const [ imageUrl, setImageUrl ] = useState<string | undefined>('');
+  const [ profilePicture, setProfilePicture ] = useState<string | undefined>('');
 
   useEffect(() => {
+    setProfilePicture(route.params.user.image);
   }, []);
 
   const onTweetPress = (e: GestureResponderEvent) => {
@@ -85,7 +82,7 @@ export default function NewTweetScreen(props: NewTweetScreenProps) {
           onTweetPress={onTweetPress}
         />
         <View style={styles.newTweetContainer}>
-          <ProfilePicture image={route.params.user.image} size={50} />
+          <ProfilePicture image={profilePicture} size={50} />
           <View style={styles.inputsContainer}>
             <TextInput
               multiline
